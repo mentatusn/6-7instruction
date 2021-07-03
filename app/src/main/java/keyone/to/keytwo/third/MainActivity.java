@@ -2,12 +2,16 @@ package keyone.to.keytwo.third;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -30,9 +34,42 @@ public class MainActivity extends AppCompatActivity {
             currentNote = new Note(0);
         }
 
+        //наша навигация оправдана только для портретной ориентации
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             initView();
         }
+        initToolbar(); // вторая часть
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Здесь определяем меню приложения (активити)
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Обработка выбора пункта меню приложения (активити)
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_menu1:
+                Toast.makeText(MainActivity.this, "Нажали 1 пункт меню", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_menu2:
+                Toast.makeText(MainActivity.this, "Нажали 2 пункт меню", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_menu3:
+                Toast.makeText(MainActivity.this, "Нажали 3 пункт меню", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // Сохраним текущую позицию (вызывается перед выходом из фрагмента)
@@ -42,10 +79,13 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    //определим  навигационные кнопки
     private void initView() {
         initButtonNoteList();
         initButtonNoteBody();
     }
+
+    //кнопка открыващая спискок заметок
     private void initButtonNoteList() {
         Button buttonNoteList = findViewById(R.id.buttonNoteList);
         buttonNoteList.setOnClickListener(new View.OnClickListener() {
@@ -56,21 +96,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //кнопка открыващая содержимое заметки
     private void initButtonNoteBody() {
         Button buttonNoteBody = findViewById(R.id.buttonNoteBody);
         buttonNoteBody.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(currentNote!=null){ // если у нас уже выбрана заметка, и нам есть что показать
+                if (currentNote != null) { // если у нас уже выбрана заметка, и нам есть что показать
                     addFragment(NoteDescriptionFragment.newInstance(currentNote));
-                }else{
-                    Toast.makeText(getApplicationContext(),"Не выбрана ни одна заметка",Toast.LENGTH_SHORT).show();
+                } else { // если нечего показать(не выбрана заметка), предупреждаем пользователя
+                    Toast.makeText(getApplicationContext(), "Не выбрана ни одна заметка", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private void addFragment(Fragment fragment){
+    // добавляем нужный фрагмент
+    private void addFragment(Fragment fragment) {
         //Получить менеджер фрагментов
         FragmentManager fragmentManager = getSupportFragmentManager();
         // Открыть транзакцию
