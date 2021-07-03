@@ -15,11 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class NotesListFragment extends Fragment {
-    public static final String CURRENT_NOTE = "CurrentNote";
-    private Note currentNote;
+
+
     private boolean isLandscape;
 
     @Override
@@ -55,42 +56,29 @@ public class NotesListFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //, getResources().getStringArray(R.array.note_name)[fi]
-                    currentNote = new Note(fi);
-                    showNoteDescription(currentNote);
+                    ((MainActivity)getActivity()).currentNote = new Note(fi);
+                    showNoteDescription(((MainActivity)getActivity()).currentNote);
                 }
             });
         }
     }
 
-    // Сохраним текущую позицию (вызывается перед выходом из фрагмента)
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(CURRENT_NOTE, currentNote);
-        super.onSaveInstanceState(outState);
-    }
+
 
     // activity создана, можно к ней обращаться. Выполним начальные действия
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // Определение, можно ли будет расположить рядом герб в другом фрагменте
+        // Определение, можно ли будет расположить рядом заметку в другом фрагменте
         isLandscape = getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
-        // Если это не первое создание, то восстановим текущую позицию
-        if (savedInstanceState != null) {
-            // Восстановление текущей позиции.
-            currentNote = savedInstanceState.getParcelable(CURRENT_NOTE);
-        } else {
-            // Если воccтановить не удалось, то сделаем объект с первым индексом
-            currentNote = new Note(0);
-        }
-        // Если можно нарисовать рядом герб, то сделаем это
+        // Если можно нарисовать рядом заметку, то сделаем это
         if (isLandscape) {
-            showLandNoteDescription(currentNote);
+            showLandNoteDescription(((MainActivity)getActivity()).currentNote);
         }
     }
 
-    private void showNoteDescription(Note currentCity) {
+    private void showNoteDescription(Note currentNote) {
         if (isLandscape) {
             showLandNoteDescription(currentNote);
         } else {
@@ -98,9 +86,9 @@ public class NotesListFragment extends Fragment {
         }
     }
 
-    // Показать герб в ландшафтной ориентации
+    // Показать заметку в ландшафтной ориентации
     private void showLandNoteDescription(Note currentNote) {
-        // Создаем новый фрагмент с текущей позицией для вывода герба
+        // Создаем новый фрагмент с текущей позицией для вывода заметки
         NoteDescriptionFragment detail = NoteDescriptionFragment.newInstance(currentNote);
 
         // Выполняем транзакцию по замене фрагмента
@@ -111,13 +99,9 @@ public class NotesListFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    // Показать герб в портретной ориентации.
-    private void showPortNoteDescription(Note currentCity) {
-        // Откроем вторую activity
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), NoteDescriptionActivity.class);
-        // и передадим туда параметры
-        intent.putExtra(NoteDescriptionFragment.ARG_NOTE, currentNote);
-        startActivity(intent);
+    // Показать заметку в портретной ориентации. (устарело)
+    private void showPortNoteDescription(Note currentNote) {
+        // Мы полностью перешли на single-activity архитектуру, и теперь все проиходит в MainActivity
+        Toast.makeText(getActivity()," Выбрана заметка "+currentNote.getNoteName(getActivity())+" \nМы полностью перешли на single-activity архитектуру, и теперь все проиходит в MainActivity",Toast.LENGTH_SHORT).show();
     }
 }
