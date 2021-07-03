@@ -4,19 +4,19 @@
     <item
         android:id="@+id/action_menu1"
         android:orderInCategory="100"
-        android:title="Меню 1"
+        android:title="@string/topmenu_1_txt"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_menu2"
         android:icon="@android:drawable/ic_menu_compass"
         android:orderInCategory="10"
-        android:title="Меню 2"
+        android:title="@string/topmenu_2_txt"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_menu3"
         android:orderInCategory="100"
-        android:title="Меню 3"
+        android:title="@string/topmenu_3_txt"
         app:showAsAction="never" />
 </menu>
 
