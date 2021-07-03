@@ -18,14 +18,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Список" />
+            android:text="@string/note_list_btn_txt" />
 
         <Button
             android:id="@+id/buttonNoteBody"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Текст заметки" />
+            android:text="@string/note_body_btn_txt" />
     </LinearLayout>
 
     <FrameLayout

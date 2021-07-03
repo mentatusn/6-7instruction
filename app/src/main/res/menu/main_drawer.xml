@@ -4,16 +4,16 @@
         android:id="@+id/action_drawer_menu1"
         android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="100"
-        android:title="Боковое меню 1" />
+        android:title="@string/menu_1_txt" />
 
     <item
         android:id="@+id/action_drawer_menu2"
         android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="100"
-        android:title="Боковое меню 2" />
+        android:title="@string/menu_2_txt" />
     <item
         android:id="@+id/action_drawer_menu3"
         android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="100"
-        android:title="Боковое меню 3" />
+        android:title="@string/menu_3_txt" />
 </menu>
