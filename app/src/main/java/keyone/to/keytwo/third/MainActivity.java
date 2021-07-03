@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             initView();
         }
+        initToolbar();
     }
 
     private void initToolbar() {
